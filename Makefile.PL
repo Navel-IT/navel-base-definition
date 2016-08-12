@@ -33,7 +33,6 @@ WriteMakefile(
     PREREQ_PM => {
         'Navel::Base' => 0,
         'Mojo::URL' => 0,
-        'JSON::Validator' => 0,
         'AnyEvent::AIO' => 0,
         'IO::AIO' => 0
     },
