@@ -1,0 +1,24 @@
+---
+language: perl
+perl:
+  - '5.22'
+  - '5.20'
+  - '5.18'
+sudo: false
+before_install:
+  - |
+      f_install_navel_dep() {
+          git clone "https://github.com/navel-it/${1}" && \
+          pushd "${1}" && \
+          cpanm --quiet --installdeps --notest . && \
+          cpanm --quiet . && \
+          popd
+      }
+  - pushd ..
+  - f_install_navel_dep navel-base
+  - popd
+  - cpanm --quiet --notest Devel::Cover::Report::Coveralls
+after_success:
+  - cover -test -report coveralls
+notifications:
+  email: false
