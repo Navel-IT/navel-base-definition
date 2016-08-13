@@ -56,20 +56,20 @@ sub new {
 sub validate {
     my ($class, %options) = @_;
 
-    my (@errors, $definition_fullname);
+    my @errors;
 
     push @errors, @{$options{validator}->($options{raw_definition})} if ref $options{validator} eq 'CODE';
+    
+    my $definition_fullname = ref $class || $class;
 
     if (defined $options{if_possible_suffix_errors_with_key_value}) {
         local $@;
 
-        $definition_fullname = $options{definition_class} . '[' . (
+        $definition_fullname .= '[' . (
             eval {
                 $options{raw_definition}->{$options{if_possible_suffix_errors_with_key_value}};
             } // ''
         ) . ']';
-    } else {
-        $definition_fullname = $options{definition_class};
     }
 
     [
