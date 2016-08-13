@@ -56,9 +56,9 @@ sub new {
 sub validate {
     my ($class, %options) = @_;
 
-    my $definition_fullname;
+    my (@errors, $definition_fullname);
 
-    push my @errors, @{$options{validator}->($options{raw_definition})} if ref $options{validator} eq 'CODE';
+    push @errors, @{$options{validator}->($options{raw_definition})} if ref $options{validator} eq 'CODE';
 
     if (defined $options{if_possible_suffix_errors_with_key_value}) {
         local $@;
