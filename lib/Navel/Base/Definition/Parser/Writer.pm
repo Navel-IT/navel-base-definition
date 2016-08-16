@@ -37,14 +37,6 @@ sub write {
                 my $filehandle = shift;
 
                 if ($filehandle) {
-                    my $aio_close = sub {
-                        aio_close(shift,
-                            sub {
-                                $options{on_error}->($self->{file_path} . ': ' . $!) unless shift;
-                            }
-                        );
-                    };
-
                     aio_truncate($filehandle, 0, sub {
                         if (@_) {
                             my $serialized_definitions = encode_yaml($options{definitions});
@@ -57,13 +49,13 @@ sub write {
                                         $options{on_error}->($self->{file_path} . ': the definitions have not been properly written, they are probably corrupt');
                                     }
 
-                                    $aio_close->($filehandle);
+                                    aio_close($filehandle);
                                 }
                             );
                         } else {
                             $options{on_error}->($self->{file_path} . ': ' . $!);
 
-                            $aio_close->($filehandle);
+                            aio_close($filehandle);
                         }
                     });
                 } else {
