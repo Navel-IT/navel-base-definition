@@ -42,9 +42,9 @@ sub properties {
 }
 
 sub new {
-    my ($class, $definition) = @_;
+    my $class = shift;
 
-    $definition = properties($definition);
+    my $definition = properties(shift);
 
     my $errors = $class->validate($definition);
 
