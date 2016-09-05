@@ -34,7 +34,8 @@ WriteMakefile(
         'Navel::Base' => 0,
         'Mojo::URL' => 0,
         'AnyEvent::AIO' => 0,
-        'IO::AIO' => 0
+        'IO::AIO' => 0,
+        'Promises' => 0
     },
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => 6.64

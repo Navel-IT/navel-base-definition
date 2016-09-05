@@ -38,26 +38,24 @@ sub new {
 }
 
 sub read {
-    my ($self, %options) = @_;
+    my $self = shift;
 
-    $self->{raw} = $self->SUPER::read(%options);
+    $self->{raw} = $self->SUPER::read(@_);
 
     $self;
 }
 
-sub write {
-    my ($self, %options) = @_;
+sub async_write {
+    my $self = shift;
 
-    $self->SUPER::write(
+    $self->SUPER::async_write(
         definitions => [
             map {
                 $_->persistant_properties()
             } @{$self->{definitions}}
         ],
-        %options
+        @_
     );
-
-    $self;
 }
 
 sub make_definition {
