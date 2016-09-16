@@ -15,10 +15,13 @@ use IO::AIO;
 use Promises 'deferred';
 
 use Navel::Utils qw/
+    json_constructor
     croak
-    encode_yaml
-    path
 /;
+
+#-> class variables
+
+my $json_constructor = json_constructor()->canonical()->pretty();
 
 #-> methods
 
@@ -40,7 +43,7 @@ sub async_write {
             if ($filehandle) {
                 aio_truncate($filehandle, 0, sub {
                     if (@_) {
-                        my $serialized_definitions = encode_yaml($options{definitions});
+                        my $serialized_definitions = $json_constructor->encode($options{definitions});
 
                         aio_write($filehandle, undef, (length $serialized_definitions), $serialized_definitions, 0,
                             sub {

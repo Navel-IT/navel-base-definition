@@ -10,10 +10,14 @@ package Navel::Base::Definition::Parser::Reader 0.1;
 use Navel::Base;
 
 use Navel::Utils qw/
+    json_constructor
     croak
     path
-    decode_yaml
 /;
+
+#-> class variables
+
+my $json_constructor = json_constructor();
 
 #-> methods
 
@@ -33,7 +37,7 @@ sub read {
 
         die $! if $!;
 
-        decode_yaml($file_content);
+        $json_constructor->decode($file_content);
     };
 
     die $self->{file_path} . ': ' . $@ . "\n" if $@;
