@@ -15,9 +15,9 @@ use parent qw/
 /;
 
 use Navel::Utils qw/
-    try_require_namespace
-    croak
     isint
+    croak
+    try_require_namespace
 /;
 
 #-> methods
@@ -25,16 +25,33 @@ use Navel::Utils qw/
 sub new {
     my ($class, %options) = @_;
 
+    $options{maximum} //= 0;
+
+    croak('maximum must be a positive integer') unless isint($options{maximum}) && $options{maximum} >= 0;
+
     my $self = bless {
         definition_class => $options{definition_class},
         do_not_need_at_least_one => $options{do_not_need_at_least_one},
         defnitions_validation_on_errors => $options{defnitions_validation_on_errors},
+        maximum => $options{maximum},
         file_path => undef,
         raw => [],
         definitions => []
     }, ref $class || $class;
+}
 
-    $self->set_maximum($options{maximum});
+sub set_maximum {
+    my ($self, $maximum) = @_;
+
+    my $minimum = 0;
+
+    $maximum ||= $minimum;
+
+    die 'maximum must be an integer equal or greater than ' . $minimum . "\n" unless isint($maximum) && $maximum >= $minimum;
+
+    $self->{maximum} = $maximum;
+
+    $self;
 }
 
 sub read {
@@ -100,20 +117,6 @@ sub make {
     } else {
         die $self->{definition_class} . ": definitions must be encapsulated in an array\n";
     }
-
-    $self;
-}
-
-sub set_maximum {
-    my ($self, $maximum) = @_;
-
-    my $minimum = 0;
-
-    $maximum ||= $minimum;
-
-    die 'maximum must be an integer equal or greater than ' . $minimum . "\n" unless isint($maximum) && $maximum >= $minimum;
-
-    $self->{maximum} = $maximum;
 
     $self;
 }
