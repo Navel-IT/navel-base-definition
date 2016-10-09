@@ -27,7 +27,7 @@ sub new {
 
     $options{maximum} //= 0;
 
-    croak('maximum must be a positive integer') unless isint($options{maximum}) && $options{maximum} >= 0;
+    croak('maximum must be a positive integer') unless isint($options{maximum}) > 0;
 
     my $self = bless {
         definition_class => $options{definition_class},
@@ -38,20 +38,6 @@ sub new {
         raw => [],
         definitions => []
     }, ref $class || $class;
-}
-
-sub set_maximum {
-    my ($self, $maximum) = @_;
-
-    my $minimum = 0;
-
-    $maximum ||= $minimum;
-
-    die 'maximum must be an integer equal or greater than ' . $minimum . "\n" unless isint($maximum) && $maximum >= $minimum;
-
-    $self->{maximum} = $maximum;
-
-    $self;
 }
 
 sub read {
