@@ -54,7 +54,7 @@ sub async_write {
     $self->SUPER::async_write(
         definitions => [
             map {
-                $_->persistant_properties()
+                $_->persistant_properties
             } @{$self->{definitions}}
         ],
         @_
@@ -122,7 +122,7 @@ sub definition_by_name {
 sub definition_properties_by_name {
     my $definition = shift->definition_by_name(@_);
 
-    defined $definition ? $definition->properties() : undef;
+    defined $definition ? $definition->properties : undef;
 }
 
 sub all_by_property_name {
@@ -132,7 +132,7 @@ sub all_by_property_name {
 
     [
         map {
-            $_->can($name) ? $_->$name() : $_->{$name}
+            $_->can($name) ? $_->$name : $_->{$name}
         } @{$self->{definitions}}
     ];
 }
@@ -143,7 +143,7 @@ sub add_definition {
     my $definition = $self->make_definition($raw_definition);
 
     die $self->{definition_class} . ': the maximum number of definition (' . $self->{maximum} . ") has been reached\n" if $self->{maximum} && @{$self->{definitions}} > $self->{maximum};
-    die $self->{definition_class} . ': duplicate definition (' . $definition->full_name() . ") detected\n" if defined $self->definition_by_name($definition->{name});
+    die $self->{definition_class} . ': duplicate definition (' . $definition->full_name . ") detected\n" if defined $self->definition_by_name($definition->{name});
 
     push @{$self->{definitions}}, $definition;
 

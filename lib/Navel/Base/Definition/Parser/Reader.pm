@@ -17,7 +17,7 @@ use Navel::Utils qw/
 
 #-> class variables
 
-my $json_constructor = json_constructor();
+my $json_constructor = json_constructor;
 
 #-> methods
 
@@ -33,7 +33,7 @@ sub read {
     my $deserialized = eval {
         local $!;
 
-        my $file_content = path($self->{file_path})->slurp();
+        my $file_content = path($self->{file_path})->slurp;
 
         die $! if $!;
 

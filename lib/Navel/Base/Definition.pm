@@ -80,7 +80,7 @@ sub validate {
 }
 
 sub persistant_properties {
-    my ($properties, $runtime_properties) = (shift->properties(), @_);
+    my ($properties, $runtime_properties) = (shift->properties, @_);
 
     if (ref $runtime_properties eq 'ARRAY') {;
         delete $properties->{$_} for @{$runtime_properties};
@@ -96,7 +96,7 @@ sub merge {
 
     my $errors = $self->validate(
         {
-            %{$self->properties()},
+            %{$self->properties},
             %{$hash_to_merge}
         }
     );

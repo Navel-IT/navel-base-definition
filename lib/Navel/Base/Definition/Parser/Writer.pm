@@ -21,7 +21,7 @@ use Navel::Utils qw/
 
 #-> class variables
 
-my $json_constructor = json_constructor()->canonical()->pretty();
+my $json_constructor = json_constructor->canonical->pretty;
 
 #-> methods
 
@@ -34,7 +34,7 @@ sub async_write {
 
     local $!;
 
-    my $deferred = deferred();
+    my $deferred = deferred;
 
     aio_open($self->{file_path}, IO::AIO::O_CREAT | IO::AIO::O_WRONLY, 0666,
         sub {
@@ -68,7 +68,7 @@ sub async_write {
         }
     );
 
-    $deferred->promise();
+    $deferred->promise;
 }
 
 # sub AUTOLOAD {}
