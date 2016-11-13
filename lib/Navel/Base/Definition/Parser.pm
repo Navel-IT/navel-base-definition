@@ -101,7 +101,7 @@ sub make {
 
         undef $self->{raw};
     } else {
-        die $self->{definition_class} . ": definitions must be encapsulated in an array\n";
+        die $self->{definition_class} . ": definitions must be encapsulated in a ARRAY reference\n";
     }
 
     $self;
