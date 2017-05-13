@@ -32,8 +32,6 @@ sub async_write {
 
     croak('file_path must be defined') unless defined $self->{file_path};
 
-    local $!;
-
     my $deferred = deferred;
 
     aio_open($self->{file_path}, IO::AIO::O_CREAT | IO::AIO::O_WRONLY, 0666,

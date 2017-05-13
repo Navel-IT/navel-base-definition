@@ -63,8 +63,6 @@ sub validate {
     my $definition_fullname = ref $class || $class;
 
     if (defined $options{if_possible_suffix_errors_with_key_value}) {
-        local $@;
-
         $definition_fullname .= '[' . (
             eval {
                 $options{raw_definition}->{$options{if_possible_suffix_errors_with_key_value}};

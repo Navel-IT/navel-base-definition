@@ -28,11 +28,7 @@ sub read {
 
     croak('file_path must be defined') unless defined $self->{file_path};
 
-    local $@;
-
     my $deserialized = eval {
-        local $!;
-
         my $file_content = path($self->{file_path})->slurp;
 
         die $! if $!;
